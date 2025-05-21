@@ -1,6 +1,6 @@
 import React from 'react';
-import { supabase } from '@/lib/supabase';
-import { getWhoopUserIdFromCookie, TransformedWhoopData, fetchAndStoreWhoopData } from '@/lib/whoop';
+import { supabase } from '../lib/supabase';
+import { getWhoopUserIdFromCookie, TransformedWhoopData, fetchAndStoreWhoopData } from '../lib/whoop';
 import { cookies } from 'next/headers'; // For server-side cookie access
 import { NextRequest } from 'next/server'; // Mock NextRequest
 import Link from 'next/link';

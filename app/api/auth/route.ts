@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { WHOOP_AUTH_URL, WHOOP_CLIENT_ID, WHOOP_REDIRECT_URI } from '@/lib/whoop';
+import { WHOOP_AUTH_URL, WHOOP_CLIENT_ID, WHOOP_REDIRECT_URI } from '../../lib/whoop';
 
 export async function GET(req: NextRequest) {
   try {
