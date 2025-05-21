@@ -1,6 +1,6 @@
 import React from 'react';
-import { supabase } from '@/lib/supabase';
-import { getWhoopUserIdFromCookie, TransformedWhoopData, fetchAndStoreWhoopData } from '@/lib/whoop';
+import { supabase } from '../../lib/supabase';
+import { getWhoopUserIdFromCookie, TransformedWhoopData, fetchAndStoreWhoopData } from '../../lib/whoop';
 import { cookies } from 'next/headers'; // For server-side cookie access
 import { NextRequest } from 'next/server'; // Mock NextRequest
 import Link from 'next/link';
@@ -22,7 +22,12 @@ async function getWhoopDataForUser(whoopUserId: string): Promise<TransformedWhoo
     console.error('Error fetching WHOOP data from Supabase:', error.message);
     return [];
   }
-  return data || [];
+  
+  // Füge die whoop_user_id zu jedem Element hinzu, um den TransformedWhoopData-Typ zu erfüllen
+  return (data || []).map(item => ({
+    ...item,
+    whoop_user_id: whoopUserId
+  }));
 }
 
 // Mock NextRequest for getWhoopUserIdFromCookie as it expects a NextRequest object
@@ -55,8 +60,12 @@ export default async function ProfilePage() {
 
   const handleLogout = async () => {
     'use server';
-    // Clear the server-side cookie
-    cookies().delete('whoop_user_id');
+    // Clear the server-side cookie using the correct method
+    const cookieStore = await cookies();
+    cookieStore.set('whoop_user_id', '', { 
+      expires: new Date(0), 
+      path: '/' 
+    });
     // In a real app, you might also want to invalidate the token on WHOOP's side if possible,
     // or at least remove it from your database to force a new login.
     // For now, just deleting the cookie will require re-login.
