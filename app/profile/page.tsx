@@ -44,9 +44,8 @@ export default async function ProfilePage() {
     // return null; // Or render a message, redirect handles this
   }
 
-  // Attempt to fetch fresh data upon profile view for this user.
-  // This provides a more immediate update if the cron job hasn't run recently.
-  // You might want to add a check to avoid fetching too frequently.
+  // Versuche, frische Daten beim Laden der Profilseite zu erhalten
+  // Dies bietet eine unmittelbarere Aktualisierung, falls ein Webhook noch nicht ausgelöst wurde
   const fetchedFreshData = await fetchAndStoreWhoopData(whoopUserId);
   if (fetchedFreshData) {
     console.log('Fresh WHOOP data fetched successfully on profile load for:', whoopUserId);
@@ -80,7 +79,9 @@ export default async function ProfilePage() {
       {whoopData.length === 0 ? (
         <div className="text-center py-10">
           <p className="text-xl text-gray-400 mb-4">
-            {fetchedFreshData ? 'Aktuelle Daten werden geladen oder es sind noch keine Daten vorhanden.' : 'Keine WHOOP-Daten gefunden. Synchronisiere deine WHOOP-App oder warte auf die nächste automatische Aktualisierung.'}
+            {fetchedFreshData 
+              ? 'Aktuelle Daten werden geladen oder es sind noch keine Daten vorhanden.' 
+              : 'Keine WHOOP-Daten gefunden. Synchronisiere deine WHOOP-App, um Webhooks auszulösen und Daten zu aktualisieren.'}
           </p>
           <p className="text-gray-500">UserID: {whoopUserId}</p>
           <Link href="/" className="mt-6 inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg">
@@ -109,7 +110,7 @@ export default async function ProfilePage() {
 
       <footer className="text-center text-gray-500 mt-12 py-6 border-t border-gray-700">
         <p>&copy; {new Date().getFullYear()} Spandau Whoop. Alle Rechte vorbehalten.</p>
-        <p className="text-xs mt-1">Daten bereitgestellt von WHOOP.</p>
+        <p className="text-xs mt-1">Daten werden automatisch über WHOOP-Webhooks aktualisiert.</p>
       </footer>
     </div>
   );

@@ -9,6 +9,8 @@ const WHOOP_CLIENT_SECRET_INTERNAL = process.env.WHOOP_CLIENT_SECRET!;
 const WHOOP_REDIRECT_URI_INTERNAL = process.env.WHOOP_REDIRECT_URI!;
 const APP_SECRET_INTERNAL = process.env.APP_SECRET!;
 const WHOOP_AUTH_URL_INTERNAL = process.env.WHOOP_AUTH_URL!;
+// Optional: Webhook-Secret, falls von WHOOP unterstützt
+const WHOOP_WEBHOOK_SECRET_INTERNAL = process.env.WHOOP_WEBHOOK_SECRET;
 
 if (!WHOOP_TOKEN_URL_INTERNAL || !WHOOP_CLIENT_ID_INTERNAL || !WHOOP_CLIENT_SECRET_INTERNAL || !WHOOP_REDIRECT_URI_INTERNAL || !APP_SECRET_INTERNAL || !WHOOP_AUTH_URL_INTERNAL) {
   throw new Error('One or more WHOOP environment variables are not set. Please check your .env.local file.');
@@ -283,34 +285,6 @@ export async function fetchAndStoreWhoopData(whoopUserId: string): Promise<boole
   }
 }
 
-// Function to be called by the cron job or scheduled task
-export async function scheduledWhoopDataFetch() {
-  if (!supabase) {
-    console.error("Supabase client not initialized in scheduledWhoopDataFetch");
-    return;
-  }
-  console.log('Running scheduled WHOOP data fetch...');
-  const { data: users, error } = await supabase
-    .from('whoop_tokens')
-    .select('whoop_user_id');
-
-  if (error) {
-    console.error('Error fetching users for scheduled update:', error.message);
-    return;
-  }
-
-  if (!users || users.length === 0) {
-    console.log('No users found to update WHOOP data for.');
-    return;
-  }
-
-  for (const user of users) {
-    console.log(`Fetching WHOOP data for user ${user.whoop_user_id}...`);
-    await fetchAndStoreWhoopData(user.whoop_user_id);
-  }
-  console.log('Scheduled WHOOP data fetch completed.');
-}
-
 // Helper to get user ID from cookie (used on server-side pages/components)
 export async function getWhoopUserIdFromCookie(req: NextRequest): Promise<string | null> {
     const whoopUserCookie = getCookie('whoop_user_id', { req });
@@ -338,4 +312,5 @@ export const WHOOP_AUTH_URL = WHOOP_AUTH_URL_INTERNAL;
 export const WHOOP_TOKEN_URL = WHOOP_TOKEN_URL_INTERNAL;
 export const WHOOP_API_BASE_URL = WHOOP_API_BASE_URL_INTERNAL;
 export const APP_SECRET = APP_SECRET_INTERNAL;
+export const WHOOP_WEBHOOK_SECRET = WHOOP_WEBHOOK_SECRET_INTERNAL;
 export const fetchWhoopProfile = fetchWhoopProfileInternal; 
