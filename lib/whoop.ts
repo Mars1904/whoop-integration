@@ -16,6 +16,16 @@ if (!WHOOP_TOKEN_URL_INTERNAL || !WHOOP_CLIENT_ID_INTERNAL || !WHOOP_CLIENT_SECR
   throw new Error('One or more WHOOP environment variables are not set. Please check your .env.local file.');
 }
 
+// Export konstanten für externe Verwendung
+export const WHOOP_API_BASE_URL = WHOOP_API_BASE_URL_INTERNAL;
+export const WHOOP_TOKEN_URL = WHOOP_TOKEN_URL_INTERNAL;
+export const WHOOP_CLIENT_ID = WHOOP_CLIENT_ID_INTERNAL;
+export const WHOOP_CLIENT_SECRET = WHOOP_CLIENT_SECRET_INTERNAL;
+export const WHOOP_REDIRECT_URI = WHOOP_REDIRECT_URI_INTERNAL;
+export const APP_SECRET = APP_SECRET_INTERNAL;
+export const WHOOP_AUTH_URL = WHOOP_AUTH_URL_INTERNAL;
+export const WHOOP_WEBHOOK_SECRET = WHOOP_WEBHOOK_SECRET_INTERNAL;
+
 interface WhoopTokenResponse {
   access_token: string;
   refresh_token: string;
@@ -305,12 +315,4 @@ export function setWhoopUserCookie(res: NextResponse, userId: string) {
     setCookie('whoop_user_id', userId, { res, maxAge: oneYear, path: '/', sameSite: 'lax'});
 }
 
-// Exporting the constants for use in other modules if needed
-export const WHOOP_CLIENT_ID = WHOOP_CLIENT_ID_INTERNAL;
-export const WHOOP_REDIRECT_URI = WHOOP_REDIRECT_URI_INTERNAL;
-export const WHOOP_AUTH_URL = WHOOP_AUTH_URL_INTERNAL;
-export const WHOOP_TOKEN_URL = WHOOP_TOKEN_URL_INTERNAL;
-export const WHOOP_API_BASE_URL = WHOOP_API_BASE_URL_INTERNAL;
-export const APP_SECRET = APP_SECRET_INTERNAL;
-export const WHOOP_WEBHOOK_SECRET = WHOOP_WEBHOOK_SECRET_INTERNAL;
 export const fetchWhoopProfile = fetchWhoopProfileInternal; 

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { supabase } from '../../../lib/supabase';
+import { supabase } from '@/lib/supabase';
 import {
   WHOOP_TOKEN_URL,
   WHOOP_CLIENT_ID,
@@ -8,7 +8,7 @@ import {
   fetchWhoopProfile,
   fetchAndStoreWhoopData,
   setWhoopUserCookie
-} from '../../../lib/whoop';
+} from '@/lib/whoop';
 
 interface WhoopTokenApiResponse {
   access_token: string;

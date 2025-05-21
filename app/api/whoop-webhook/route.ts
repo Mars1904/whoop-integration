@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { fetchAndStoreWhoopData } from '../../../lib/whoop';
-import { supabase } from '../../../lib/supabase';
+import { fetchAndStoreWhoopData } from '@/lib/whoop';
+import { supabase } from '@/lib/supabase';
 
 // Optional: Webhook-Secret für zusätzliche Sicherheit, falls vorhanden
 const WEBHOOK_SECRET = process.env.WHOOP_WEBHOOK_SECRET;
