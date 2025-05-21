@@ -1,0 +1,15 @@
+{
+  "buildCommand": "next build",
+  "cleanUrls": true,
+  "ignoreCommand": "git diff --quiet HEAD^ HEAD ./",
+  "framework": "nextjs",
+  "installCommand": "npm install",
+  "github": {
+    "silent": false
+  },
+  "git": {
+    "deploymentEnabled": {
+      "main": true
+    }
+  }
+} 
